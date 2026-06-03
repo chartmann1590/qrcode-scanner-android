@@ -1,0 +1,21 @@
+# SDK Location (usually set by Android Studio)
+# sdk.dir=C\:\\Users\\YourUsername\\AppData\\Local\\Android\\Sdk
+
+# Keystore configuration
+keystore.file=c:/Users/Charles/Key.jks
+keystore.password=Cm0NeY12051!
+keystore.alias=key0
+keystore.keyPassword=Cm0NeY12051!
+
+# AdMob Configuration
+admob.appId=ca-app-pub-8382831211800454~6091844987
+admob.bannerUnitId=ca-app-pub-8382831211800454/4507300577
+admob.interstitialUnitId=ca-app-pub-8382831211800454/8083868911
+
+# Firebase Configuration
+firebase.projectNumber=1033449617103
+firebase.projectId=qrcode-88284
+firebase.storageBucket=qrcode-88284.appspot.com
+firebase.appId=1:1033449617103:android:e5efb66014cc796c02a9ba
+firebase.apiKey=AIzaSyB62JMXGxfQ4pE85Cyh5TzARd48wu9lbZc
+firebase.clientId=1033449617103-018lldpalpj8d32tmvmbq3fio807rg5i.apps.googleusercontent.com

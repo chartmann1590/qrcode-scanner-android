@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdView.loadAd(adRequest);
 
         // Load Interstitial ad
-        InterstitialAd.load(this, "ca-app-pub-8382831211800454/8083868911", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, getString(R.string.admob_interstitial_unit_id), adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 mInterstitialAd = interstitialAd;
