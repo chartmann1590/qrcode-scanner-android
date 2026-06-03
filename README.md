@@ -3,6 +3,7 @@
 <div align="center">
 
 [![Android Build](https://img.shields.io/badge/Android-Debug_Build-success?logo=android&logoColor=white&color=10B981)](https://github.com/chartmann1590/qrcode-scanner-android)
+[![Google Play](https://img.shields.io/badge/Google_Play-Get_it_on-green?logo=google-play&logoColor=white&color=10B981)](https://play.google.com/store/apps/details?id=com.charles.qrcode)
 [![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Active-blue?logo=github&color=06B6D4)](https://chartmann1590.github.io/qrcode-scanner-android/)
 [![SDK Target](https://img.shields.io/badge/Android_SDK-35%2B-indigo?logo=google&color=6366F1)](https://developer.android.com)
 [![Platform](https://img.shields.io/badge/Platform-Android-orange?logo=android)](https://developer.android.com)
@@ -10,7 +11,7 @@
 
 **A sleek, privacy-focused Android QR and Barcode scanner built with a modern dark cyberpunk/slate design system, dynamic transitions, and persistent offline local history.**
 
-[**View Live Landing Page**](https://chartmann1590.github.io/qrcode-scanner-android/) • [**Download APK**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.apk) • [**Download AAB**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.aab) • [**Privacy Policy**](https://chartmann1590.github.io/qrcode-scanner-android/#privacy) • [**Support Development**](https://buymeacoffee.com/charleshartmann)
+[**Get it on Google Play**](https://play.google.com/store/apps/details?id=com.charles.qrcode) • [**View Live Landing Page**](https://chartmann1590.github.io/qrcode-scanner-android/) • [**Download APK**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.apk) • [**Privacy Policy**](https://chartmann1590.github.io/qrcode-scanner-android/#privacy) • [**Support Development**](https://buymeacoffee.com/charleshartmann)
 
 ---
 
@@ -26,7 +27,8 @@
 
 ## 📥 Download Release
 
-Get the latest signed, ad-enabled release builds:
+Get the latest app builds and official releases:
+- 🤖 [**Get it on Google Play**](https://play.google.com/store/apps/details?id=com.charles.qrcode)
 - 📱 [**Download Latest APK**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.apk)
 - 📦 [**Download Latest App Bundle (AAB)**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.aab)
 - 🔖 [**View All Releases & Version History**](https://github.com/chartmann1590/qrcode-scanner-android/releases)
