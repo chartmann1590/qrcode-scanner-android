@@ -4,7 +4,7 @@
 
 [![Android Build](https://img.shields.io/badge/Android-Debug_Build-success?logo=android&logoColor=white&color=10B981)](https://github.com/chartmann1590/qrcode-scanner-android)
 [![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Active-blue?logo=github&color=06B6D4)](https://chartmann1590.github.io/qrcode-scanner-android/)
-[![SDK Target](https://img.shields.io/badge/Android_SDK-33%2B-indigo?logo=google&color=6366F1)](https://developer.android.com)
+[![SDK Target](https://img.shields.io/badge/Android_SDK-35%2B-indigo?logo=google&color=6366F1)](https://developer.android.com)
 [![Platform](https://img.shields.io/badge/Platform-Android-orange?logo=android)](https://developer.android.com)
 [![Support Developer](https://img.shields.io/badge/Support-Buy_Me_A_Coffee-yellow?logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/charleshartmann)
 
@@ -81,7 +81,7 @@ CREATE TABLE history (
 
 ### Prerequisites
 - Android Studio Flamingo (2022.2.1) or higher
-- Android SDK 33
+- Android SDK 35
 - JDK 11 or 17
 
 ### Installation
