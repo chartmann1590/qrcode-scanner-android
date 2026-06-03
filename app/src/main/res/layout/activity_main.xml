@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_slate_900"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <!-- Top Toolbar -->
@@ -35,22 +36,12 @@
             android:background="@color/bg_slate_800" />
     </RelativeLayout>
 
-    <!-- Ad Banner at the bottom -->
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:adSize="BANNER"
-        app:adUnitId="@string/admob_banner_unit_id" />
-
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_above="@id/adView"
+        android:layout_alignParentBottom="true"
         android:background="@color/bg_slate_800"
         app:elevation="8dp"
         app:itemIconTint="@color/nav_item_color"
@@ -58,13 +49,23 @@
         app:menu="@menu/menu_bottom_nav"
         app:labelVisibilityMode="labeled" />
 
+    <!-- Ad Banner above Bottom Navigation -->
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNavigation"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        app:adUnitId="@string/admob_banner_unit_id" />
+
     <!-- Main Content Container -->
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottomNavigation">
+        android:layout_above="@id/adView">
 
         <!-- Tab 1: Scanner Screen -->
         <LinearLayout
