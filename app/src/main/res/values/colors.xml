@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Modern Cyber/Slate Theme Colors -->
+    <color name="bg_slate_900">#0F172A</color> <!-- App Background -->
+    <color name="bg_slate_800">#1E293B</color> <!-- Cards/Surfaces -->
+    <color name="bg_slate_700">#334155</color> <!-- Highlight/Borders -->
+
+    <color name="neon_indigo">#6366F1</color> <!-- Primary Action/Tabs -->
+    <color name="neon_cyan">#06B6D4</color> <!-- Accent -->
+    <color name="neon_emerald">#10B981</color> <!-- Success/Scanned badge -->
+    <color name="neon_rose">#F43F5E</color> <!-- Delete/Error action -->
+
+    <color name="text_slate_50">#F8FAFC</color> <!-- Main Text -->
+    <color name="text_slate_300">#CBD5E1</color> <!-- Secondary Text -->
+    <color name="text_slate_500">#64748B</color> <!-- Muted Text -->
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    
+    <!-- Maintain backward compatibility variables if any library uses them -->
+    <color name="purple_200">#6366F1</color>
+    <color name="purple_500">#4F46E5</color>
+    <color name="purple_700">#3730A3</color>
+    <color name="teal_200">#06B6D4</color>
+    <color name="teal_700">#0891B2</color>
+    <color name="colorPrimary">#6366F1</color>
+    <color name="colorPrimaryDark">#4F46E5</color>
+    <color name="colorAccent">#06B6D4</color>
+</resources>

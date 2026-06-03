@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.QRCode" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/neon_indigo</item>
+        <item name="colorPrimaryVariant">@color/bg_slate_900</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/neon_cyan</item>
+        <item name="colorSecondaryVariant">@color/neon_cyan</item>
+        <item name="colorOnSecondary">@color/bg_slate_900</item>
+        <!-- Status bar and navigation bar colors. -->
+        <item name="android:statusBarColor">@color/bg_slate_900</item>
+        <item name="android:navigationBarColor">@color/bg_slate_900</item>
+        <!-- Window background. -->
+        <item name="android:windowBackground">@color/bg_slate_900</item>
+    </style>
+</resources>

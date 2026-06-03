@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
+}
+
+android {
+    namespace 'com.charles.qrcode'
+    compileSdk 33
+
+    signingConfigs {
+        release {
+            def localProperties = new Properties()
+            def localPropertiesFile = rootProject.file('local.properties')
+            if (localPropertiesFile.exists()) {
+                localPropertiesFile.withInputStream { instr ->
+                    localProperties.load(instr)
+                }
+            }
+            storeFile file(localProperties.getProperty('keystore.file', 'c:/Users/Charles/Key.jks'))
+            storePassword localProperties.getProperty('keystore.password', 'Cm0NeY12051!')
+            keyAlias localProperties.getProperty('keystore.alias', 'key0')
+            keyPassword localProperties.getProperty('keystore.keyPassword', 'Cm0NeY12051!')
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.charles.qrcode"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.firebase:firebase-analytics:21.2.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.3.5'
+    implementation 'com.google.firebase:firebase-perf:20.3.1'
+    implementation 'com.google.android.gms:play-services-ads:21.5.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'com.google.android.gms:play-services-vision:20.1.3'
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+}
