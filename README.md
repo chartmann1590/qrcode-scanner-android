@@ -10,7 +10,7 @@
 
 **A sleek, privacy-focused Android QR and Barcode scanner built with a modern dark cyberpunk/slate design system, dynamic transitions, and persistent offline local history.**
 
-[**View Live Landing Page**](https://chartmann1590.github.io/qrcode-scanner-android/) • [**Privacy Policy**](https://chartmann1590.github.io/qrcode-scanner-android/#privacy) • [**Support Development**](https://buymeacoffee.com/charleshartmann)
+[**View Live Landing Page**](https://chartmann1590.github.io/qrcode-scanner-android/) • [**Download APK**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.apk) • [**Download AAB**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.aab) • [**Privacy Policy**](https://chartmann1590.github.io/qrcode-scanner-android/#privacy) • [**Support Development**](https://buymeacoffee.com/charleshartmann)
 
 ---
 
@@ -23,6 +23,13 @@
 </p>
 
 </div>
+
+## 📥 Download Release
+
+Get the latest signed, ad-enabled release builds:
+- 📱 [**Download Latest APK**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.apk)
+- 📦 [**Download Latest App Bundle (AAB)**](https://github.com/chartmann1590/qrcode-scanner-android/releases/latest/download/app-release.aab)
+- 🔖 [**View All Releases & Version History**](https://github.com/chartmann1590/qrcode-scanner-android/releases)
 
 ## ✨ Features
 
