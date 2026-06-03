@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner - Premium Android App</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-slate-900: #0F172A;
+            --bg-slate-800: #1E293B;
+            --bg-slate-700: #334155;
+            --neon-indigo: #6366F1;
+            --neon-cyan: #06B6D4;
+            --neon-emerald: #10B981;
+            --neon-rose: #F43F5E;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Ambient Glow Backgrounds */
+        .glow-orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            filter: blur(40px);
+        }
+
+        .glow-orb-1 {
+            top: -100px;
+            right: -100px;
+        }
+
+        .glow-orb-2 {
+            top: 600px;
+            left: -200px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+        }
+
+        /* Navigation Header */
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-indigo));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-donation-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-donation-nav:hover {
+            background: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 48px;
+                padding: 40px 24px;
+            }
+            .hero-mockups {
+                justify-content: center;
+            }
+        }
+
+        .hero-content h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, var(--neon-indigo), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        @media (max-width: 900px) {
+            .hero-content p {
+                margin: 0 auto 40px;
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-indigo), var(--neon-cyan));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Mockup Devices */
+        .hero-mockups {
+            display: flex;
+            gap: 24px;
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 250px;
+            height: 520px;
+            background: #1e293b;
+            border: 8px solid #334155;
+            border-radius: 36dp;
+            border-radius: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.5s;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-10px) rotate(1deg);
+        }
+
+        .phone-mockup-1 {
+            z-index: 2;
+        }
+
+        .phone-mockup-2 {
+            margin-top: 40px;
+            z-index: 1;
+        }
+
+        @media (max-width: 500px) {
+            .hero-mockups {
+                flex-direction: column;
+                align-items: center;
+                gap: 32px;
+            }
+            .phone-mockup-2 {
+                margin-top: 0;
+            }
+        }
+
+        /* Simulated App Screens */
+        .app-screen {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-slate-900);
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            position: relative;
+        }
+
+        .app-header {
+            text-align: center;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--bg-slate-800);
+            margin-bottom: 16px;
+        }
+
+        .app-card {
+            background: var(--bg-slate-800);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 24px;
+        }
+
+        .app-btn-scan {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-indigo), var(--neon-cyan));
+            margin: 40px auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .app-btn-scan svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .app-bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 54px;
+            background: var(--bg-slate-800);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .app-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .app-nav-item.active {
+            color: var(--neon-cyan);
+        }
+
+        .app-nav-item svg {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 2px;
+        }
+
+        /* History Items */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            max-height: 380px;
+        }
+
+        .history-item {
+            background: var(--bg-slate-800);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 3px solid var(--neon-indigo);
+            text-align: left;
+        }
+
+        .history-item.link {
+            border-left-color: var(--neon-cyan);
+        }
+
+        .history-icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: var(--bg-slate-700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .history-icon-box svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .history-info {
+            flex: 1;
+        }
+
+        .history-title {
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        .history-subtitle {
+            font-size: 9px;
+            color: var(--neon-indigo);
+            font-weight: 700;
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 24px;
+        }
+
+        .features-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .features-title h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 32px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--neon-indigo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .feature-icon.cyan {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--neon-cyan);
+        }
+
+        .feature-icon.emerald {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--neon-emerald);
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Donation banner */
+        .donation-section {
+            max-width: 1000px;
+            margin: 120px auto;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .donation-section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .donation-section p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .donation-btn {
+            background: #FFDD00;
+            color: #000000;
+            font-weight: 800;
+            padding: 16px 36px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(255, 221, 0, 0.4);
+            transition: all 0.3s;
+        }
+
+        .donation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 221, 0, 0.6);
+        }
+
+        /* Privacy Policy Section */
+        .privacy-section {
+            max-width: 900px;
+            margin: 120px auto 80px;
+            padding: 0 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 80px;
+        }
+
+        .privacy-title {
+            margin-bottom: 40px;
+        }
+
+        .privacy-title h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .privacy-content {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .privacy-content h3 {
+            color: var(--text-primary);
+            margin: 24px 0 12px;
+            font-size: 18px;
+        }
+
+        .privacy-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .privacy-content p {
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .privacy-content ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .privacy-content li {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+
+    <!-- Navigation Header -->
+    <header>
+        <div class="logo">
+            <!-- QR Icon SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="6" height="6" rx="1"></rect>
+                <rect x="15" y="3" width="6" height="6" rx="1"></rect>
+                <rect x="3" y="15" width="6" height="6" rx="1"></rect>
+                <path d="M16 16h2v2h-2zm4 4h-2v2h2zm-4 4h4M9 9h.01M9 15h.01M15 9h.01"></path>
+            </svg>
+            QR SCANNER
+        </div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="https://buymeacoffee.com/charleshartmann" target="_blank" class="btn-donation-nav">
+                <!-- Coffee Cup SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                    <line x1="6" y1="2" x2="6" y2="4"></line>
+                    <line x1="10" y1="2" x2="10" y2="4"></line>
+                    <line x1="14" y1="2" x2="14" y2="4"></line>
+                </svg>
+                Support Me
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Sleek, Modern <br><span>QR Scanner</span></h1>
+            <p>Experience lightning-fast scanning with a beautiful, dark cyberpunk aesthetic, instant copy & share, and a persistent offline scan history database.</p>
+            <div class="cta-buttons">
+                <a href="#features" class="btn-primary">Explore Features</a>
+                <a href="https://buymeacoffee.com/charleshartmann" target="_blank" class="btn-secondary">Buy Me a Coffee</a>
+            </div>
+        </div>
+        
+        <div class="hero-mockups">
+            <!-- Mockup 1: Scan Tab -->
+            <div class="phone-mockup phone-mockup-1">
+                <div class="app-screen">
+                    <div class="app-header">QR SCANNER</div>
+                    
+                    <div class="app-card">
+                        <div style="font-weight: 800; font-size: 11px; color: var(--neon-cyan); margin-bottom: 8px;">SCANNED RESULT</div>
+                        <div style="font-size: 14px; font-weight: 600; word-break: break-all; margin-bottom: 6px; color: var(--text-primary);">https://github.com/chartmann1590</div>
+                        <div style="font-size: 10px; color: var(--neon-indigo); font-weight: 700;">QR_CODE</div>
+                        
+                        <div style="display: flex; gap: 8px; justify-content: center; margin-top: 14px;">
+                            <div style="background: var(--bg-slate-700); padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: 600;">Copy</div>
+                            <div style="background: var(--bg-slate-700); padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: 600;">Share</div>
+                        </div>
+                    </div>
+                    
+                    <div class="app-btn-scan">
+                        <!-- Custom Scan Icon SVG -->
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 9V5a2 2 0 0 1 2-2h4M14 3h4a2 2 0 0 1 2 2v4M20 15v4a2 2 0 0 1-2 2h-4M10 21H6a2 2 0 0 1-2-2v-4M4 12h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div style="text-align: center; color: var(--neon-cyan); font-weight: 800; font-size: 11px; letter-spacing: 1px;">TAP TO SCAN</div>
+                    
+                    <div class="app-bottom-nav">
+                        <div class="app-nav-item active">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V5a2 2 0 0 1 2-2h4M14 3h4a2 2 0 0 1 2 2v4M20 15v4a2 2 0 0 1-2 2h-4M10 21H6a2 2 0 0 1-2-2v-4M4 12h16"/></svg>
+                            Scan
+                        </div>
+                        <div class="app-nav-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3M3.05 11a9 9 0 1 1 0.49 4.09M3 12h0.01M3 7v5h5"/></svg>
+                            History
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mockup 2: History Tab -->
+            <div class="phone-mockup phone-mockup-2">
+                <div class="app-screen">
+                    <div class="app-header">QR SCANNER</div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-weight: 700; font-size: 13px;">Recent Scans</span>
+                        <span style="font-size: 10px; color: var(--neon-rose); font-weight: 700; cursor: pointer;">Clear All</span>
+                    </div>
+                    
+                    <div class="history-list">
+                        <div class="history-item link">
+                            <div class="history-icon-box">
+                                <svg fill="none" stroke="var(--neon-cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54 -.54l3,-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54 .54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                            </div>
+                            <div class="history-info">
+                                <div class="history-title">https://github.com/chartmann1590</div>
+                                <div class="history-subtitle">QR_CODE</div>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="history-icon-box">
+                                <svg fill="none" stroke="var(--neon-indigo)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+                            </div>
+                            <div class="history-info">
+                                <div class="history-title">WiFi:S:HartmannNet;P:12345;</div>
+                                <div class="history-subtitle">QR_CODE</div>
+                            </div>
+                        </div>
+
+                        <div class="history-item">
+                            <div class="history-icon-box">
+                                <svg fill="none" stroke="var(--neon-indigo)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+                            </div>
+                            <div class="history-info">
+                                <div class="history-title">Product Serial: 98127392183</div>
+                                <div class="history-subtitle">CODE_128</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="app-bottom-nav">
+                        <div class="app-nav-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V5a2 2 0 0 1 2-2h4M14 3h4a2 2 0 0 1 2 2v4M20 15v4a2 2 0 0 1-2 2h-4M10 21H6a2 2 0 0 1-2-2v-4M4 12h16"/></svg>
+                            Scan
+                        </div>
+                        <div class="app-nav-item active">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3M3.05 11a9 9 0 1 1 0.49 4.09M3 12h0.01M3 7v5h5"/></svg>
+                            History
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="features-title">
+            <h2>Modern Features</h2>
+            <p style="color: var(--text-secondary);">Crafted with attention to detail for the best possible user experience.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <h3>Cyberpunk Slate UI</h3>
+                <p>Features a gorgeous default slate-dark theme that is easy on the eyes, styled with neon accents and beautiful Material card interfaces.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon cyan">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3M3.05 11a9 9 0 1 1 0.49 4.09M3 12h0.01M3 7v5h5"/></svg>
+                </div>
+                <h3>Local SQLite History</h3>
+                <p>Never lose a scanned link or code again. Everything is securely cached locally on your device in a high-performance SQLite database.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon emerald">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </div>
+                <h3>Instant Actions</h3>
+                <p>Easily copy results to clipboard or share scan content with other applications through native share intents with a single tap.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Banner -->
+    <section class="donation-section">
+        <h2>Support the Project</h2>
+        <p>If this app helped you make QR scanning quick and pleasant, please consider buying the developer a coffee to support further updates!</p>
+        <a href="https://buymeacoffee.com/charleshartmann" target="_blank" class="donation-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                <line x1="6" y1="2" x2="6" y2="4"></line>
+                <line x1="10" y1="2" x2="10" y2="4"></line>
+                <line x1="14" y1="2" x2="14" y2="4"></line>
+            </svg>
+            Buy me a coffee
+        </a>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section id="privacy" class="privacy-section">
+        <div class="privacy-title">
+            <h2>Privacy Policy</h2>
+            <p style="color: var(--text-muted);">Last Updated: June 2026</p>
+        </div>
+        <div class="privacy-content">
+            <h3>1. Personal Data and Storage</h3>
+            <p>Our QR Scanner app is built with privacy-first principles. We do NOT collect, harvest, or transmit any personal information. All scanned data, barcodes, formats, and timestamps are saved exclusively in a local SQLite database on your device. This history never leaves your device and is fully controlled by you. You can wipe your history at any time using the "Clear All" action in the app.</p>
+            
+            <h3>2. Device Permissions</h3>
+            <p>The app requests the following camera permission:</p>
+            <ul>
+                <li><strong>Camera Access:</strong> Required to capture frames and read barcodes or QR codes through the camera. Camera frames are processed on-device in real-time and are never recorded or stored.</li>
+            </ul>
+
+            <h3>3. Third-Party Services</h3>
+            <p>We use third-party tools to help analyze app stability and display advertisements:</p>
+            <ul>
+                <li><strong>Google Firebase Analytics & Crashlytics:</strong> Used to track anonymous usage behavior and report app crashes so we can fix bugs quickly. No personally identifiable data is shared.</li>
+                <li><strong>Google AdMob:</strong> Serves standard banners and interstitial advertisements. AdMob may collect user data such as advertising identifiers to personalize ads.</li>
+            </ul>
+
+            <h3>4. Contact Details</h3>
+            <p>If you have any questions or feedback regarding our privacy practices, please contact us at our GitHub support workspace.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 Charles Hartmann. Built with passion & modern cyberpunk design.
+    </footer>
+
+</body>
+</html>
