@@ -23,6 +23,11 @@ android {
             def ksAlias = System.getenv("ANDROID_KEYALIAS") ?: localProperties.getProperty('keystore.alias', 'key0')
             def ksKeyPassword = System.getenv("ANDROID_KEY_PASSWORD") ?: localProperties.getProperty('keystore.keyPassword', 'Cm0NeY12051!')
 
+            def isWindows = System.getProperty("os.name").toLowerCase().contains("win")
+            if (!isWindows && ksFile.matches("^[a-zA-Z]:.*")) {
+                ksFile = "dummy-keystore.jks"
+            }
+
             storeFile file(ksFile)
             storePassword ksPassword
             keyAlias ksAlias
@@ -34,8 +39,8 @@ android {
         applicationId "com.charles.qrcode"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode System.getenv("VERSION_CODE") ? System.getenv("VERSION_CODE").toInteger() : 1
+        versionName System.getenv("VERSION_NAME") ?: "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
