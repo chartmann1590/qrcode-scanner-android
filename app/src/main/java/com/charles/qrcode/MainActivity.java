@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.compose.ui.platform.ComposeView;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
@@ -139,15 +141,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (itemId == R.id.nav_scan) {
                 findViewById(R.id.layout_scan).setVisibility(View.VISIBLE);
                 findViewById(R.id.layout_history).setVisibility(View.GONE);
+                findViewById(R.id.layout_support).setVisibility(View.GONE);
                 return true;
             } else if (itemId == R.id.nav_history) {
                 findViewById(R.id.layout_scan).setVisibility(View.GONE);
                 findViewById(R.id.layout_history).setVisibility(View.VISIBLE);
+                findViewById(R.id.layout_support).setVisibility(View.GONE);
                 loadHistory();
+                return true;
+            } else if (itemId == R.id.nav_support) {
+                findViewById(R.id.layout_scan).setVisibility(View.GONE);
+                findViewById(R.id.layout_history).setVisibility(View.GONE);
+                findViewById(R.id.layout_support).setVisibility(View.VISIBLE);
                 return true;
             }
             return false;
         });
+
+        // Initialize Compose feedback screen
+        ComposeView composeView = findViewById(R.id.composeView);
+        com.charles.qrcode.ui.feedback.FeedbackBridgeKt.setupFeedbackView(composeView, this);
 
         // Initialize Ads
         MobileAds.initialize(this, new OnInitializationCompleteListener() {

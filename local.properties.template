@@ -19,3 +19,8 @@ firebase.storageBucket=qrcode-88284.appspot.com
 firebase.appId=1:1033449617103:android:e5efb66014cc796c02a9ba
 firebase.apiKey=AIzaSyB62JMXGxfQ4pE85Cyh5TzARd48wu9lbZc
 firebase.clientId=1033449617103-018lldpalpj8d32tmvmbq3fio807rg5i.apps.googleusercontent.com
+
+# GitHub Feedback Reporter Configuration
+github.api.token=PASTE_YOUR_GITHUB_PAT_HERE
+github.repo.owner=REPLACE_WITH_REPO_OWNER
+github.repo.name=REPLACE_WITH_REPO_NAME
