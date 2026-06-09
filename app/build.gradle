@@ -17,12 +17,12 @@ def generateGoogleServicesJson() {
         }
     }
 
-    def projectNumber = System.getenv("FIREBASE_PROJECT_NUMBER") ?: localProperties.getProperty("firebase.projectNumber", "1033449617103")
-    def projectId = System.getenv("FIREBASE_PROJECT_ID") ?: localProperties.getProperty("firebase.projectId", "qrcode-88284")
-    def storageBucket = System.getenv("FIREBASE_STORAGE_BUCKET") ?: localProperties.getProperty("firebase.storageBucket", "qrcode-88284.appspot.com")
-    def appId = System.getenv("FIREBASE_APP_ID") ?: localProperties.getProperty("firebase.appId", "1:1033449617103:android:e5efb66014cc796c02a9ba")
-    def apiKey = System.getenv("FIREBASE_API_KEY") ?: localProperties.getProperty("firebase.apiKey", "AIzaSyB62JMXGxfQ4pE85Cyh5TzARd48wu9lbZc")
-    def clientId = System.getenv("FIREBASE_CLIENT_ID") ?: localProperties.getProperty("firebase.clientId", "1033449617103-018lldpalpj8d32tmvmbq3fio807rg5i.apps.googleusercontent.com")
+    def projectNumber = System.getenv("FIREBASE_PROJECT_NUMBER") ?: localProperties.getProperty("firebase.projectNumber", "")
+    def projectId = System.getenv("FIREBASE_PROJECT_ID") ?: localProperties.getProperty("firebase.projectId", "")
+    def storageBucket = System.getenv("FIREBASE_STORAGE_BUCKET") ?: localProperties.getProperty("firebase.storageBucket", "")
+    def appId = System.getenv("FIREBASE_APP_ID") ?: localProperties.getProperty("firebase.appId", "")
+    def apiKey = System.getenv("FIREBASE_API_KEY") ?: localProperties.getProperty("firebase.apiKey", "")
+    def clientId = System.getenv("FIREBASE_CLIENT_ID") ?: localProperties.getProperty("firebase.clientId", "")
 
     def jsonContent = """{
   "project_info": {
@@ -93,10 +93,10 @@ android {
                     localProperties.load(instr)
                 }
             }
-            def ksFile = System.getenv("ANDROID_KEYSTORE_FILE") ?: localProperties.getProperty('keystore.file', 'c:/Users/Charles/Key.jks')
-            def ksPassword = System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: localProperties.getProperty('keystore.password', 'Cm0NeY12051!')
-            def ksAlias = System.getenv("ANDROID_KEYALIAS") ?: localProperties.getProperty('keystore.alias', 'key0')
-            def ksKeyPassword = System.getenv("ANDROID_KEY_PASSWORD") ?: localProperties.getProperty('keystore.keyPassword', 'Cm0NeY12051!')
+            def ksFile = System.getenv("ANDROID_KEYSTORE_FILE") ?: localProperties.getProperty('keystore.file', '')
+            def ksPassword = System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: localProperties.getProperty('keystore.password', '')
+            def ksAlias = System.getenv("ANDROID_KEYALIAS") ?: localProperties.getProperty('keystore.alias', '')
+            def ksKeyPassword = System.getenv("ANDROID_KEY_PASSWORD") ?: localProperties.getProperty('keystore.keyPassword', '')
 
             def isWindows = System.getProperty("os.name").toLowerCase().contains("win")
             if (!isWindows && ksFile.matches("^[a-zA-Z]:.*")) {
