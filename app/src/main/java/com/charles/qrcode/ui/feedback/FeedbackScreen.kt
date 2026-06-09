@@ -60,8 +60,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalDensity
+
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -830,7 +836,10 @@ private fun IssueDetailDialog(
 
                 Divider(color = Slate700)
 
-                Column(modifier = Modifier.padding(12.dp)) {
+                Column(modifier = Modifier.padding(
+                    start = 12.dp, end = 12.dp, top = 12.dp,
+                    bottom = 12.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
+                )) {
                     commentError?.let { error ->
                         Text(
                             error,
