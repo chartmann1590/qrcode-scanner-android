@@ -64,8 +64,8 @@ class GithubApi private constructor(context: Context) {
     suspend fun createIssue(title: String, body: String): Result<GithubIssue> =
         withContext(Dispatchers.IO) {
             try {
-                val request = CreateIssueRequest(title, body)
-                val bodyJson = json.encodeToString(request)
+                val request = CreateIssueRequest(title = title, body = body, labels = listOf("bug"))
+                val bodyJson = json.encodeToString(CreateIssueRequest.serializer(), request)
                 val httpRequest = Request.Builder()
                     .url("https://api.github.com/repos/$owner/$repo/issues")
                     .post(bodyJson.toRequestBody("application/json".toMediaType()))
