@@ -60,13 +60,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import android.os.Build
+import android.view.View
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -652,6 +654,21 @@ private fun IssueDetailDialog(
         isLoading = false
     }
 
+    val view = LocalView.current
+    val density = LocalDensity.current
+    val navBarBottomDp = remember {
+        val rootInsets = view.rootWindowInsets
+        val bottomPx = if (rootInsets != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                rootInsets.getInsets(android.view.WindowInsets.Type.navigationBars()).bottom
+            } else {
+                @Suppress("DEPRECATION")
+                rootInsets.systemWindowInsetBottom
+            }
+        } else 0
+        with(density) { bottomPx.toDp() }
+    }
+
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -838,7 +855,7 @@ private fun IssueDetailDialog(
 
                 Column(modifier = Modifier.padding(
                     start = 12.dp, end = 12.dp, top = 12.dp,
-                    bottom = 12.dp + WindowInsets.systemBars.asPaddingValues().calculateBottomPadding()
+                    bottom = 12.dp + navBarBottomDp
                 )) {
                     commentError?.let { error ->
                         Text(
