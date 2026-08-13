@@ -1,7 +1,6 @@
 package com.charles.qrcode.data.feedback
 
 import android.content.Context
-import com.charles.qrcode.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.builtins.ListSerializer
@@ -14,6 +13,14 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
+/**
+ * Talks to the cloudflare-worker/ feedback relay, not api.github.com directly — the
+ * Worker holds the GitHub token as a server-side secret and hardcodes this app's own
+ * repo, so no owner/repo/credential ever needs to travel through this app. Previously
+ * embedded BuildConfig.GITHUB_API_TOKEN client-side as a Bearer header, which shipped a
+ * real repo-write PAT in every release build (extractable from the APK). See
+ * cloudflare-worker/src/index.ts.
+ */
 class GithubApi private constructor(context: Context) {
 
     private val json = Json {
@@ -21,11 +28,12 @@ class GithubApi private constructor(context: Context) {
         isLenient = true
     }
 
+    private val baseUrl = "https://qrcode-scanner-github-feedback.charles-h-hartmann1.workers.dev"
+
     private val client: OkHttpClient by lazy {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BASIC
         }
-        loggingInterceptor.redactHeader("Authorization")
 
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
@@ -34,10 +42,6 @@ class GithubApi private constructor(context: Context) {
                     .addHeader("Accept", "application/vnd.github+json")
                     .addHeader("X-GitHub-Api-Version", "2022-11-28")
                     .addHeader("User-Agent", "QRCode-Android/1.0")
-                val token = BuildConfig.GITHUB_API_TOKEN
-                if (token.isNotEmpty()) {
-                    builder.addHeader("Authorization", "Bearer $token")
-                }
                 chain.proceed(builder.build())
             }
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -46,20 +50,9 @@ class GithubApi private constructor(context: Context) {
             .build()
     }
 
-    private val owner: String get() = BuildConfig.GITHUB_REPO_OWNER
-    private val repo: String get() = BuildConfig.GITHUB_REPO_NAME
-
-    val isConfigured: Boolean
-        get() = BuildConfig.GITHUB_API_TOKEN.isNotEmpty() &&
-                owner.isNotEmpty() && repo.isNotEmpty()
-
-    val configError: String
-        get() = when {
-            BuildConfig.GITHUB_API_TOKEN.isEmpty() -> "GitHub API token not configured. Add github.api.token to local.properties."
-            owner.isEmpty() -> "GitHub repo owner not configured. Add github.repo.owner to local.properties."
-            repo.isEmpty() -> "GitHub repo name not configured. Add github.repo.name to local.properties."
-            else -> ""
-        }
+    // Always true now — the relay is a fixed public Worker URL, not per-install config.
+    val isConfigured: Boolean = true
+    val configError: String = ""
 
     suspend fun createIssue(title: String, body: String): Result<GithubIssue> =
         withContext(Dispatchers.IO) {
@@ -71,7 +64,7 @@ class GithubApi private constructor(context: Context) {
                 }
                 val bodyJson = jsonBody.toString()
                 val httpRequest = Request.Builder()
-                    .url("https://api.github.com/repos/$owner/$repo/issues")
+                    .url("$baseUrl/issue")
                     .post(bodyJson.toRequestBody("application/json".toMediaType()))
                     .build()
                 val response = client.newCall(httpRequest).execute()
@@ -92,7 +85,7 @@ class GithubApi private constructor(context: Context) {
         withContext(Dispatchers.IO) {
             try {
                 val httpRequest = Request.Builder()
-                    .url("https://api.github.com/repos/$owner/$repo/issues/$issueNumber")
+                    .url("$baseUrl/issue/$issueNumber")
                     .get()
                     .build()
                 val response = client.newCall(httpRequest).execute()
@@ -112,7 +105,7 @@ class GithubApi private constructor(context: Context) {
         withContext(Dispatchers.IO) {
             try {
                 val httpRequest = Request.Builder()
-                    .url("https://api.github.com/repos/$owner/$repo/issues/$issueNumber/comments")
+                    .url("$baseUrl/issue/$issueNumber/comments")
                     .get()
                     .build()
                 val response = client.newCall(httpRequest).execute()
@@ -139,7 +132,7 @@ class GithubApi private constructor(context: Context) {
                 val request = PostCommentRequest(body)
                 val bodyJson = json.encodeToString(request)
                 val httpRequest = Request.Builder()
-                    .url("https://api.github.com/repos/$owner/$repo/issues/$issueNumber/comments")
+                    .url("$baseUrl/issue/$issueNumber/comments")
                     .post(bodyJson.toRequestBody("application/json".toMediaType()))
                     .build()
                 val response = client.newCall(httpRequest).execute()
@@ -159,12 +152,10 @@ class GithubApi private constructor(context: Context) {
     suspend fun uploadAsset(fileName: String, base64Content: String): Result<String> =
         withContext(Dispatchers.IO) {
             try {
-                val assetDir = BuildConfig.FEEDBACK_ASSETS_DIR
-                val path = "$assetDir/$fileName"
-                val requestJson = """{"message":"Upload feedback screenshot","content":"$base64Content"}"""
+                val requestJson = """{"filename":"$fileName","contentBase64":"$base64Content"}"""
                 val httpRequest = Request.Builder()
-                    .url("https://api.github.com/repos/$owner/$repo/contents/$path")
-                    .put(requestJson.toRequestBody("application/json".toMediaType()))
+                    .url("$baseUrl/upload-image")
+                    .post(requestJson.toRequestBody("application/json".toMediaType()))
                     .build()
                 val response = client.newCall(httpRequest).execute()
                 if (response.isSuccessful) {
