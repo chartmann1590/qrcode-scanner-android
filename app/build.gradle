@@ -72,7 +72,7 @@ generateGoogleServicesJson()
 
 android {
     namespace 'com.charles.qrcode'
-    compileSdk 35
+    compileSdk 36
 
     signingConfigs {
         release {
@@ -108,7 +108,7 @@ android {
     defaultConfig {
         applicationId "com.charles.qrcode"
         minSdk 24
-        targetSdk 35
+        targetSdk 36
         versionCode System.getenv("VERSION_CODE") ? System.getenv("VERSION_CODE").toInteger() : 1
         versionName System.getenv("VERSION_NAME") ?: "1.0"
 
