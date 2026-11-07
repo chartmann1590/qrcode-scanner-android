@@ -106,6 +106,8 @@ android {
     }
 
     defaultConfig {
+        // Store this build is for: "play" (default) or "amazon" (./gradlew ... -Pstore=amazon).
+        buildConfigField "String", "STORE", "\"${project.findProperty('store') ?: 'play'}\""
         applicationId "com.charles.qrcode"
         minSdk 24
         targetSdk 36

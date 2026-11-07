@@ -2,8 +2,8 @@ name: Build and Release Signed App
 
 on:
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - amazon  # the amazon branch has its own workflow (amazon.yml): no tags/releases from it
 
 permissions:
   contents: write
