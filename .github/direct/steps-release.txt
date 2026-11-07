@@ -1,0 +1,28 @@
+launch
+wait 12
+shot 01-launch
+adclose
+taploop (?i)^(allow|ok|got it|continue|while using the app|only this time|accept|agree)$
+adclose
+shot 02-main
+tap (?i)^tap to scan$
+wait 6
+taploop (?i)^(allow|while using the app|only this time|ok)$
+wait 3
+shot 03-scan-screen
+back
+wait 3
+adclose
+shot 04-back-main
+swipeup
+shot 05-history
+tap (?i)^more options$
+wait 2
+shot 06-menu
+tap (?i)support|feedback|report
+wait 4
+adclose
+shot 07-support
+back
+wait 2
+shot 08-back

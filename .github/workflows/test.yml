@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - '**'
+      - '!direct-stripe'
   pull_request:
     branches:
       - '**'
